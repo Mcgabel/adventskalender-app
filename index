@@ -1,0 +1,75 @@
+<script>
+const tasks = [
+"Er führt: Er beginnt mit Küssen, sie lässt sich führen.",
+"Sie führt: Sie startet, er bleibt passiv.",
+"Nur Petting, kein Sex.",
+"Quickie – sie startet spontan.",
+"Er übernimmt komplett die Kontrolle.",
+"Sie übernimmt komplett die Kontrolle.",
+"Fokus nur auf sie.",
+"Fokus nur auf ihn.",
+"Nur Vorspiel, sie startet.",
+"Er bereitet eine Überraschung vor.",
+"Sie startet spontan im Alltag.",
+"Er gibt Anweisungen, sie folgt.",
+"Sie gibt Anweisungen, er folgt.",
+"Er verbindet ihr die Augen und führt.",
+"Sie verbindet ihm die Augen und führt.",
+"Er teased sie ohne Abschluss.",
+"Sie teased ihn ohne Abschluss.",
+"Sie startet Rollenspiel.",
+"Er startet nur über Körpersprache.",
+"Sie startet nur über Körpersprache.",
+"Er führt Slow Sex.",
+"Sie führt Slow Sex.",
+"Er übernimmt dominante Rolle.",
+"Sie übernimmt dominante Rolle.",
+"2x am Tag (sie morgens, er abends).",
+"Sie plant eine Überraschung.",
+"Seine Fantasie wird umgesetzt.",
+"Ihre Fantasie wird umgesetzt.",
+"Spontan – wer will, startet.",
+"Best-of wiederholen."
+];
+
+const calendar = document.getElementById("calendar");
+
+// gespeicherte offene Türen laden
+let openedDoors = JSON.parse(localStorage.getItem("openedDoors")) || [];
+
+tasks.forEach((task, index) => {
+  const div = document.createElement("div");
+  div.classList.add("door");
+  div.innerText = index + 1;
+
+  // wenn schon geöffnet → markieren
+  if (openedDoors.includes(index)) {
+    div.classList.add("opened");
+  }
+
+  div.onclick = () => {
+    openDoor(index, div);
+  };
+
+  calendar.appendChild(div);
+});
+
+function openDoor(index, element) {
+  element.classList.add("opened");
+
+  // speichern
+  if (!openedDoors.includes(index)) {
+    openedDoors.push(index);
+    localStorage.setItem("openedDoors", JSON.stringify(openedDoors));
+  }
+
+  document.getElementById("dayTitle").innerText = "Tag " + (index + 1);
+  document.getElementById("taskText").innerText = tasks[index];
+
+  document.getElementById("modal").style.display = "flex";
+}
+
+function closeModal() {
+  document.getElementById("modal").style.display = "none";
+}
+</script>
