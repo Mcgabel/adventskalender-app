@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>🔥 30 Tage Challenge</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0f0f0f, #1c1c1c);
+      color: white;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      margin-top: 20px;
+      font-size: 28px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 15px;
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 10px;
+    }
+
+    .door {
+      background: #222;
+      border-radius: 15px;
+      padding: 25px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: 0.3s;
+      border: 1px solid #333;
+    }
+
+    .door:hover {
+      background: #333;
+      transform: scale(1.05);
+    }
+
+    .opened {
+      background: linear-gradient(135deg, #ff2e63, #e91e63);
+      color: white;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background: #1f1f1f;
+      padding: 30px;
+      border-radius: 20px;
+      max-width: 400px;
+      width: 90%;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 10px;
+      background: #e91e63;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #ff2e63;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>🔥 30 Tage Challenge</h1>
+
+<div class="grid" id="calendar"></div>
+
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <h2 id="dayTitle"></h2>
+    <p id="taskText"></p>
+    <button onclick="closeModal()">Schließen</button>
+  </div>
+</div>
+
+<script>
+const tasks = [
+"Er führt: Er beginnt mit Küssen, sie lässt sich führen.",
+"Sie führt: Sie startet, er bleibt passiv.",
+"Nur Petting – kein Sex erlaubt.",
+"Quickie – sie startet spontan.",
+"Er übernimmt komplett die Kontrolle.",
+"Sie übernimmt komplett die Kontrolle.",
+"Fokus nur auf sie.",
+"Fokus nur auf ihn.",
+"Nur Vorspiel – sie startet.",
+"Er bereitet eine Überraschung vor.",
+"Sie startet spontan im Alltag.",
+"Er gibt Anweisungen, sie folgt.",
+"Sie gibt Anweisungen, er folgt.",
+"Er verbindet ihr die Augen und führt sie.",
+"Sie verbindet ihm die Augen und führt ihn.",
+"Er teased sie ohne Abschluss.",
+"Sie teased ihn ohne Abschluss.",
+"Sie startet ein Rollenspiel.",
+"Er startet nur über Körpersprache.",
+"Sie startet nur über Körpersprache.",
+"Er führt Slow Sex.",
+"Sie führt Slow Sex.",
+"Er übernimmt die dominante Rolle.",
+"Sie übernimmt die dominante Rolle.",
+"2x am Tag – sie morgens, er abends.",
+"Sie plant eine Überraschung.",
+"Seine Fantasie wird umgesetzt.",
+"Ihre Fantasie wird umgesetzt.",
+"Spontan – wer will, startet.",
+"Best-of: Euren Lieblingsmoment wiederholen."
+];
+
+const calendar = document.getElementById("calendar");
+
+// gespeicherte Türen laden
+let openedDoors = JSON.parse(localStorage.getItem("openedDoors")) || [];
+
+tasks.forEach((task, index) => {
+  const div = document.createElement("div");
+  div.classList.add("door");
+  div.innerText = index + 1;
+
+  // bereits geöffnete markieren
+  if (openedDoors.includes(index)) {
+    div.classList.add("opened");
+  }
+
+  div.onclick = () => {
+    openDoor(index, div);
+  };
+
+  calendar.appendChild(div);
+});
+
+function openDoor(index, element) {
+  element.classList.add("opened");
+
+  // speichern
+  if (!openedDoors.includes(index)) {
+    openedDoors.push(index);
+    localStorage.setItem("openedDoors", JSON.stringify(openedDoors));
+  }
+
+  document.getElementById("dayTitle").innerText = "Tag " + (index + 1);
+  document.getElementById("taskText").innerText = tasks[index];
+
+  document.getElementById("modal").style.display = "flex";
+}
+
+function closeModal() {
+  document.getElementById("modal").style.display = "none";
+}
+</script>
+
+</body>
+</html>
